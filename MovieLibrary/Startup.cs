@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MovieLibrary.Services;
 
 namespace MovieLibrary
 {
@@ -26,6 +27,13 @@ namespace MovieLibrary
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<EndpointOptions>(
+                Configuration.GetSection(
+                    EndpointOptions.Endpoints)
+            );
+            services.AddSingleton<IMovieService ,MovieService>();
+            services.AddSingleton<IMovieDataFetcher, MovieDataFetcher>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -51,5 +59,13 @@ namespace MovieLibrary
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+    }
+
+    public class EndpointOptions
+    {
+        public const string Endpoints = "Endpoints";
+        public string Top100 { get; set; }
+        public string DetailedMovies { get; set; }
+
     }
 }

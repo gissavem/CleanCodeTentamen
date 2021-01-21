@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary", "MovieLibrary\MovieLibrary.csproj", "{6BD60EAB-779E-4288-8616-9BC240EEE6E5}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieLibrary", "MovieLibrary\MovieLibrary.csproj", "{6BD60EAB-779E-4288-8616-9BC240EEE6E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Test", "MovieLibrary.Test\MovieLibrary.Test.csproj", "{08FD8817-3055-43FD-AAD3-E3576BFBEDC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +17,15 @@ Global
 		{6BD60EAB-779E-4288-8616-9BC240EEE6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BD60EAB-779E-4288-8616-9BC240EEE6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BD60EAB-779E-4288-8616-9BC240EEE6E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08FD8817-3055-43FD-AAD3-E3576BFBEDC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08FD8817-3055-43FD-AAD3-E3576BFBEDC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08FD8817-3055-43FD-AAD3-E3576BFBEDC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08FD8817-3055-43FD-AAD3-E3576BFBEDC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83FBA925-F555-4929-8C9D-D998B866E002}
 	EndGlobalSection
 EndGlobal
