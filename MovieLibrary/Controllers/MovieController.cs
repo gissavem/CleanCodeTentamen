@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,19 @@ namespace MovieLibrary.Controllers
 
         [HttpGet]
         [Route("/toplist")]
-        public IEnumerable<string> GetMovieTopListTitles(bool ascending = true)
+        public ActionResult<IEnumerable<string>> GetMovieTopListTitles(bool ascending = true)
         {
-            var movies = movieService.GetSortedTopList(ascending);
+            try
+            {
+                var movies = movieService.GetSortedTopList(ascending);
 
-            return movies.Select(m => m.Title);
+                return Ok(movies.Select(m => m.Title));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
         }
         
         [HttpGet]
@@ -33,7 +42,7 @@ namespace MovieLibrary.Controllers
             try
             {
                 var movie = movieService.GetMovieById(id);
-                return movie;
+                return Ok(movie);
             }
             catch (KeyNotFoundException e)
             {

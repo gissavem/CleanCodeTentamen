@@ -40,7 +40,7 @@ namespace MovieLibrary.Services
             var movie = allMovies.FirstOrDefault(m => m.Id == id);
             if (movie is null)
             {
-                throw new KeyNotFoundException($"Movie with id: {id} not found");
+                throw new KeyNotFoundException($"Movie with id: \"{id}\" not found");
             }
 
             return movie;

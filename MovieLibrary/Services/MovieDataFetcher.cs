@@ -6,6 +6,7 @@ using System.Net.Http;
 using Microsoft.Extensions.Options;
 using MovieLibrary.DTOs;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MovieLibrary.Services
 {
@@ -19,11 +20,6 @@ namespace MovieLibrary.Services
             detailedMoviesUrl = options.Value.DetailedMovies;
             top100Url = options.Value.Top100;
         }
-        public Movie GetMovieById(string id)
-        {
-            return null;
-
-        }
 
         public IEnumerable<Movie> GetAllMovies()
         {
@@ -35,49 +31,36 @@ namespace MovieLibrary.Services
 
         private IEnumerable<Movie> GetMoviesFromDetailedMovies()
         {
-            var client = new HttpClient();
-
-            var httpResponse = client.GetAsync(detailedMoviesUrl).Result;
-            if (!httpResponse.IsSuccessStatusCode)
-            {
-                throw new Exception("Something went wrong when fetching the movie data");
-            }
-
-            var content = httpResponse.Content.ToString();
-            if (content is null)
-            {
-                throw new Exception("No data in response from external API");
-            }
-            var json = new StreamReader(httpResponse.Content.ReadAsStream()).ReadToEnd();
-
-            var movies = JsonConvert.DeserializeObject<List<Movie>>(json, new JsonSerializerSettings
-            {
-                Culture = new System.Globalization.CultureInfo("sv-SE")
-            });
+            var json = GetJsonFromExternalApi(detailedMoviesUrl);
+            var detailedMovies = JsonConvert.DeserializeObject<List<DetailedMovie>>(json);
+            var movies = MapDetailedMoviesToMovieDTO(detailedMovies);
             return movies;
         }
 
         private IEnumerable<Movie> GetMoviesFromTop100()
         {
-            var client = new HttpClient();
+            var json = GetJsonFromExternalApi(top100Url);
+            var movies = JsonConvert.DeserializeObject<List<Movie>>(json, new JsonSerializerSettings
+            {
+                Culture = new System.Globalization.CultureInfo("se-SV")
+            });
+            return movies;
+        }
 
-            var httpResponse = client.GetAsync(top100Url).Result;
+        private string GetJsonFromExternalApi(string url)
+        {
+            var client = new HttpClient();
+            var httpResponse = client.GetAsync(url).Result;
             if (!httpResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Something went wrong when fetching the movie data");
             }
-
-
             var content = httpResponse.Content.ReadAsStream().ToString();
             if (content is null)
             {
                 throw new Exception("No data in response from external API");
             }
-            var json = new StreamReader(httpResponse.Content.ReadAsStream()).ReadToEnd();
-
-            var detailedMovies = JsonConvert.DeserializeObject<List<DetailedMovie>>(json);
-            var movies = MapDetailedMoviesToMovieDTO(detailedMovies);
-            return movies;
+            return new StreamReader(httpResponse.Content.ReadAsStream()).ReadToEnd();
         }
 
         private IEnumerable<Movie> MapDetailedMoviesToMovieDTO(List<DetailedMovie> detailedMovies)

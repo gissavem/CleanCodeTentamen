@@ -9,7 +9,5 @@ namespace MovieLibrary.Services
     public interface IMovieDataFetcher
     {
         public IEnumerable<Movie> GetAllMovies();
-
-        public Movie GetMovieById(string id);
     }
 }
